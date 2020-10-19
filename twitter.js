@@ -225,6 +225,39 @@ class Twitter {
   }
 
   /**
+   * Construct the data and headers for an authenticated HTTP request to the Twitter API
+   * @param {string} method - 'GET' or 'POST'
+   * @param {string} resource - the API endpoint
+   * @param {object} parameters
+   * @return {{requestData: {url: string, method: string}, headers: ({Authorization: string}|OAuth.Header)}}
+   * @private
+   */
+  _makeRawRequest(method, resource, parameters) {
+    const requestData = {
+      url: `${this.url}/${resource}`,
+      method,
+    };
+    if (parameters)
+      if (method === 'POST') requestData.data = parameters;
+      else requestData.url += '?' + querystring.stringify(parameters);
+
+    let headers = {};
+    if (this.authType === 'User') {
+      headers = this.client.toHeader(
+        this.client.authorize(requestData, this.token),
+      );
+    } else {
+      headers = {
+        Authorization: `Bearer ${this.config.bearer_token}`,
+      };
+    }
+    return {
+      requestData,
+      headers,
+    };
+  }
+
+  /**
    * Send a GET request
    * @param {string} resource - endpoint, e.g. `followers/ids`
    * @param {object} [parameters] - optional parameters
@@ -240,6 +273,23 @@ class Twitter {
 
     return Fetch(requestData.url, { headers })
       .then(Twitter._handleResponse);
+  }
+
+  /**
+   * Send a GET request
+   * @param {string} resource - endpoint, e.g. `followers/ids`
+   * @param {object} [parameters] - optional parameters
+   * @returns {Promise<object>} Promise resolving to the response from the Twitter API.
+   *   The `_header` property will be set to the Response headers (useful for checking rate limits)
+   */
+  getRaw(resource, parameters) {
+    const { requestData, headers } = this._makeRawRequest(
+      'GET',
+      resource,
+      parameters,
+    );
+
+    return Fetch(requestData.url, { headers });
   }
 
   /**
