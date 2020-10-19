@@ -304,7 +304,7 @@ class Twitter {
       parameters,
     );
     
-    console.log(headers)
+    console.log(headers);
     return Fetch(requestData.url, { headers })
       .then(Twitter._handleResponse);
   }
