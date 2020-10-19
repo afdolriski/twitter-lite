@@ -234,7 +234,7 @@ class Twitter {
    */
   _makeRawRequest(method, resource, parameters) {
     const requestData = {
-      url: `${this.url}/${resource}`,
+      url: resource,
       method,
     };
     if (parameters)
