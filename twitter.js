@@ -258,6 +258,38 @@ class Twitter {
   }
 
   /**
+   * Construct the data and headers for an authenticated HTTP request to the Twitter API
+   * @param {string} method - 'GET' or 'POST'
+   * @param {string} resource - the API endpoint
+   * @param {object} parameters
+   * @return {{requestData: {url: string, method: string}, headers: ({Authorization: string}|OAuth.Header)}}
+   * @private
+   */
+  _makeMediaRequest(resource, readStream) {
+    const requestData = {
+      url: resource,
+      method: 'POST',
+      body: readStream
+    };
+
+    let headers = {};
+    if (this.authType === 'User') {
+      headers = this.client.toHeader(
+        this.client.authorize(requestData, this.token),
+      );
+    } else {
+      headers = {
+        Authorization: `Bearer ${this.config.bearer_token}`,
+      };
+    }
+    headers['Content-Type'] = 'multipart/form-data'
+    return {
+      requestData,
+      headers,
+    };
+  }
+
+  /**
    * Send a GET request
    * @param {string} resource - endpoint, e.g. `followers/ids`
    * @param {object} [parameters] - optional parameters
@@ -287,6 +319,22 @@ class Twitter {
       'GET',
       resource,
       parameters,
+    );
+
+    return Fetch(requestData.url, { headers });
+  }
+
+  /**
+   * Send a GET request
+   * @param {string} resource - endpoint, e.g. `followers/ids`
+   * @param {object} [parameters] - optional parameters
+   * @returns {Promise<object>} Promise resolving to the response from the Twitter API.
+   *   The `_header` property will be set to the Response headers (useful for checking rate limits)
+   */
+  uploadMedia(resource, readStream) {
+    const { requestData, headers } = this._makeMediaRequest(
+      resource,
+      readStream
     );
 
     return Fetch(requestData.url, { headers });
