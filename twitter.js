@@ -338,7 +338,7 @@ class Twitter {
       readStream,
     );
 
-    return Fetch(requestData.url, { headers });
+    return Fetch(requestData.url, { headers, body: requestData.body });
   }
 
   /**
