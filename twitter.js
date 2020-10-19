@@ -303,7 +303,8 @@ class Twitter {
       resource,
       parameters,
     );
-
+    
+    console.log(headers)
     return Fetch(requestData.url, { headers })
       .then(Twitter._handleResponse);
   }
