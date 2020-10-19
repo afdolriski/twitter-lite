@@ -272,9 +272,7 @@ class Twitter {
       body: readStream,
     };
 
-    let headers = {
-      'Content-Type': 'multipart/form-data',
-    };
+    let headers = {};
     if (this.authType === 'User') {
       headers = this.client.toHeader(
         this.client.authorize(requestData, this.token),
@@ -284,6 +282,7 @@ class Twitter {
         Authorization: `Bearer ${this.config.bearer_token}`,
       };
     }
+    headers['Content-Type'] = "application/x-www-form-urlencoded";
     return {
       requestData,
       headers,
