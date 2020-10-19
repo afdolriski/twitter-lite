@@ -265,11 +265,10 @@ class Twitter {
    * @return {{requestData: {url: string, method: string}, headers: ({Authorization: string}|OAuth.Header)}}
    * @private
    */
-  _makeMediaRequest(resource, readStream) {
+  _makeMediaRequest(resource) {
     const requestData = {
       url: resource,
       method: 'POST',
-      body: readStream,
     };
 
     let headers = {};
@@ -332,15 +331,12 @@ class Twitter {
    * @returns {Promise<object>} Promise resolving to the response from the Twitter API.
    *   The `_header` property will be set to the Response headers (useful for checking rate limits)
    */
-  uploadMedia(resource, readStream) {
+  uploadMedia(resource, body) {
     const { requestData, headers } = this._makeMediaRequest(
       resource,
-      readStream,
     );
 
-    console.log(headers, requestData.body);
-
-    return Fetch(requestData.url, { method: 'POST', headers, body: requestData.body });
+    return Fetch(requestData.url, { method: 'POST', headers, body });
   }
 
   /**
