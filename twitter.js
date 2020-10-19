@@ -282,7 +282,7 @@ class Twitter {
         Authorization: `Bearer ${this.config.bearer_token}`,
       };
     }
-    headers['Content-Type'] = "application/x-www-form-urlencoded";
+    headers['Content-Type'] = 'application/x-www-form-urlencoded';
     return {
       requestData,
       headers,
