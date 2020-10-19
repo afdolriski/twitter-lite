@@ -281,7 +281,6 @@ class Twitter {
         Authorization: `Bearer ${this.config.bearer_token}`,
       };
     }
-    headers['Content-Type'] = 'multipart/form-data';
     return {
       requestData,
       headers,
@@ -339,6 +338,7 @@ class Twitter {
     const postHeaders = Object.assign({}, baseHeaders, headers);
     postHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
     body = percentEncode(querystring.stringify(body));
+    console.log(postHeaders, body);
     return Fetch(requestData.url, { method: 'POST', headers: postHeaders, body });
   }
 
