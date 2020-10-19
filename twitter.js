@@ -282,7 +282,7 @@ class Twitter {
         Authorization: `Bearer ${this.config.bearer_token}`,
       };
     }
-    headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    headers['Content-Type'] = 'multipart/form-data';
     return {
       requestData,
       headers,
@@ -338,7 +338,7 @@ class Twitter {
       readStream,
     );
 
-    console.log(headers);
+    console.log(headers, requestData.body);
 
     return Fetch(requestData.url, { method: 'POST', headers, body: requestData.body });
   }
