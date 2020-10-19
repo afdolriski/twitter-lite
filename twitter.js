@@ -273,7 +273,7 @@ class Twitter {
     };
 
     let headers = {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
     };
     if (this.authType === 'User') {
       headers = this.client.toHeader(
