@@ -338,6 +338,8 @@ class Twitter {
       readStream,
     );
 
+    console.log(headers);
+
     return Fetch(requestData.url, { method: 'POST', headers, body: requestData.body });
   }
 
