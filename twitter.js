@@ -335,7 +335,7 @@ class Twitter {
       resource,
     );
 
-    const postHeaders = Object.assign({}, baseHeaders, headers);
+    const postHeaders = Object.assign({}, form.getHeaders(), headers);
     postHeaders['Content-Type'] = 'multipart/form-data';
     console.log(requestData.url, postHeaders, form);
     return Fetch(requestData.url, { method: 'POST', headers: postHeaders, body: form });
