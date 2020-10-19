@@ -269,7 +269,7 @@ class Twitter {
     const requestData = {
       url: resource,
       method: 'POST',
-      body: readStream
+      body: readStream,
     };
 
     let headers = {};
@@ -282,7 +282,7 @@ class Twitter {
         Authorization: `Bearer ${this.config.bearer_token}`,
       };
     }
-    headers['Content-Type'] = 'multipart/form-data'
+    headers['Content-Type'] = 'multipart/form-data';
     return {
       requestData,
       headers,
@@ -334,7 +334,7 @@ class Twitter {
   uploadMedia(resource, readStream) {
     const { requestData, headers } = this._makeMediaRequest(
       resource,
-      readStream
+      readStream,
     );
 
     return Fetch(requestData.url, { headers });
