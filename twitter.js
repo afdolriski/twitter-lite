@@ -336,9 +336,7 @@ class Twitter {
     );
 
     const postHeaders = Object.assign({}, baseHeaders, headers);
-    postHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-    body = percentEncode(querystring.stringify(body));
-    console.log(postHeaders, body);
+    postHeaders['Content-Type'] = 'application/octet-stream';
     return Fetch(requestData.url, { method: 'POST', headers: postHeaders, body });
   }
 
