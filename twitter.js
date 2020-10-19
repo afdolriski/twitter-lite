@@ -330,15 +330,15 @@ class Twitter {
    * @returns {Promise<object>} Promise resolving to the response from the Twitter API.
    *   The `_header` property will be set to the Response headers (useful for checking rate limits)
    */
-  uploadMedia(resource, body) {
+  uploadMedia(resource, form) {
     const { requestData, headers } = this._makeMediaRequest(
       resource,
     );
 
     const postHeaders = Object.assign({}, baseHeaders, headers);
     postHeaders['Content-Type'] = 'multipart/form-data';
-    console.log(requestData.url, postHeaders, body);
-    return Fetch(requestData.url, { method: 'POST', headers: postHeaders, body });
+    console.log(requestData.url, postHeaders, form);
+    return Fetch(requestData.url, { method: 'POST', headers: postHeaders, body: form });
   }
 
   /**
